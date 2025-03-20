@@ -1,0 +1,33 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+import time
+
+# Initialize WebDriver
+driver = webdriver.Chrome(executable_path="./chromedriver")
+
+# Test Case 1: Google Search
+def test_google_search():
+    driver.get("https://www.google.com")
+    search_box = driver.find_element(By.NAME, "q")
+    search_box.send_keys("Jenkins Pipeline Tutorial")
+    search_box.send_keys(Keys.RETURN)
+
+    time.sleep(2)
+    assert "Jenkins Pipeline" in driver.page_source
+
+# Test Case 2: GitHub Title Verification
+def test_github_title():
+    driver.get("https://github.com")
+    assert "GitHub" in driver.title
+
+# Run Tests
+try:
+    test_google_search()
+    print("✅ Google Search Test Passed")
+    test_github_title()
+    print("✅ GitHub Title Test Passed")
+except AssertionError as e:
+    print(f"❌ Test Failed: {e}")
+finally:
+    driver.quit()
